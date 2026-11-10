@@ -1,0 +1,290 @@
+/* ==========================================================================
+   БАЗОВЫЕ ПЕРЕМЕННЫЕ И СВЕТЛАЯ ТЕМА «ЗДОРОВЬЕ И ЭНЕРГИЯ»
+   ========================================================================== */
+:root {
+  --bg-mint: #f2fbf6;
+  --emerald-primary: #10b981;
+  --emerald-dark: #059669;
+  --teal-accent: #0d9488;
+  --text-main: #0f172a;
+  --card-border: #d1fae5;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-mint);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 15%, rgba(20, 184, 166, 0.10) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(52, 211, 153, 0.10) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* ==========================================================================
+   АНИМИРОВАННЫЕ ФОНОВЫЕ СФЕРЫ ЗДОРОВЬЯ
+   ========================================================================== */
+.bg-decor-wrapper {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.45;
+  animation: floatAmbient 16s infinite ease-in-out alternate;
+}
+
+.blob-1 {
+  width: 340px;
+  height: 340px;
+  background: #a7f3d0;
+  top: -80px;
+  left: -80px;
+}
+
+.blob-2 {
+  width: 300px;
+  height: 300px;
+  background: #bae6fd;
+  top: 40%;
+  right: -90px;
+  animation-delay: -5s;
+}
+
+.blob-3 {
+  width: 280px;
+  height: 280px;
+  background: #fde68a;
+  bottom: -60px;
+  left: 20%;
+  animation-delay: -10s;
+}
+
+@keyframes floatAmbient {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(25px, 35px) scale(1.08); }
+}
+
+/* ==========================================================================
+   ШАПКА, КАРТОЧКИ И БАННЕРЫ
+   ========================================================================== */
+.glass-header {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.18);
+}
+
+.card-surface {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--card-border);
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 55%, #10b981 100%);
+}
+
+.bot-cta-card {
+  background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
+}
+
+/* Анимация логотипа */
+.logo-pulse {
+  animation: softPulse 3s infinite ease-in-out;
+}
+
+@keyframes softPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+
+/* Анимированная полоса прогресса */
+.progress-shimmer {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #059669 100%);
+  background-size: 200% 100%;
+  animation: shimmerMove 2.5s infinite linear;
+}
+
+@keyframes shimmerMove {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Анимация ЭКГ-линии пульса на главном баннере */
+.ecg-path {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 450;
+  animation: drawEcg 3.2s infinite ease-in-out;
+}
+
+@keyframes drawEcg {
+  0% { stroke-dashoffset: 450; opacity: 0.3; }
+  50% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: -450; opacity: 0.2; }
+}
+
+/* Плавающие бейджи на картинке приветствия */
+.floating-badge {
+  position: absolute;
+  animation: floatBadge 4s infinite ease-in-out alternate;
+}
+
+.badge-top {
+  top: -10px;
+  left: -10px;
+}
+
+.badge-bottom {
+  bottom: -10px;
+  right: -10px;
+  animation-delay: -2s;
+}
+
+@keyframes floatBadge {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-6px); }
+}
+
+/* ==========================================================================
+   АНИМАЦИЯ ПЕРЕХОДА МЕЖДУ ЭКРАНАМИ И КАРТОЧКАМИ
+   ========================================================================== */
+.step-screen {
+  display: none;
+}
+
+.step-screen.active {
+  display: block;
+  animation: screenAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes screenAppear {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.step-preview-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   КНОПКИ И ИНТЕРАКТИВНЫЕ КАРТОЧКИ ОТВЕТОВ (ТАЧ-ФРЕНДЛИ)
+   ========================================================================== */
+.btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -6px rgba(5, 150, 105, 0.35);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.option-card {
+  transition: all 0.18s ease;
+  min-height: 54px;
+}
+
+.option-card:hover {
+  border-color: #34d399;
+  background-color: #f0fdf4;
+}
+
+.option-card:active {
+  transform: scale(0.985);
+}
+
+.option-input:checked + .option-card {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+.option-input:checked + .option-card .option-letter {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   АНИМИРОВАННАЯ СФЕРА ДЫХАНИЯ (ЭКРАН 4)
+   ========================================================================== */
+.breathing-sphere {
+  background: radial-gradient(circle, #d1fae5 0%, #6ee7b7 100%);
+  border: 3px solid #10b981;
+  transition: transform 1s ease-in-out, box-shadow 1s ease-in-out;
+}
+
+.breathing-sphere.active-breathe {
+  animation: breatheCycle 8s infinite ease-in-out;
+}
+
+@keyframes breatheCycle {
+  0%, 100% {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    transform: scale(1.22);
+    box-shadow: 0 0 30px 10px rgba(16, 185, 129, 0.35);
+  }
+}
+
+/* ==========================================================================
+   АДАПТИВ ДЛЯ СМАРТФОНОВ (MOBILE-FIRST OPTIMIZATION)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Защита от авто-зума iOS Safari при фокусе в поле ввода (строго >= 16px) */
+  .mobile-input {
+    font-size: 16px !important;
+  }
+
+  .floating-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .badge-top {
+    top: 6px;
+    left: 6px;
+  }
+
+  .badge-bottom {
+    bottom: 6px;
+    right: 6px;
+  }
+
+  .option-card {
+    padding: 12px !important;
+  }
+}

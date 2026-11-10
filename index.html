@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#10b981" />
+  <title>Здоровый сотрудник – эффективное предприятие | ОАО «Горизонт»</title>
+
+  <!-- Подключение шрифтов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS (базовая сетка) и наш отдельный файл стилей style.css -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js для построения радаров и диаграмм -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+  <!-- АНИМИРОВАННЫЙ ФОН ЗДОРОВЬЯ (Плавающие мягкие сферы) -->
+  <div class="bg-decor-wrapper" aria-hidden="true">
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+  </div>
+
+  <!-- ВЕРХНЯЯ ШАПКА С ПРОГРЕСС-БАРОМ (Адаптирована под смартфон) -->
+  <header class="glass-header sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="logo-pulse w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
+            🌿
+          </div>
+          <div class="truncate">
+            <div class="font-bold text-xs sm:text-base text-slate-800 truncate">Здоровый сотрудник — эффективное предприятие</div>
+            <div class="text-[11px] sm:text-xs text-slate-500 truncate">Технологический отдел ОАО «Горизонт» • БГУИР</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="stepBadge" class="text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-200 px-2.5 py-1 rounded-full">
+            Шаг 1 / 6
+          </span>
+          <button onclick="resetSavedProgress()" class="text-[11px] text-slate-400 hover:text-rose-500 px-1.5 py-1 transition" title="Начать заново">
+            ↺
+          </button>
+        </div>
+      </div>
+
+      <!-- Полоса прогресса с анимацией блика -->
+      <div class="w-full bg-emerald-950/10 h-2 rounded-full overflow-hidden">
+        <div id="progressBar" class="progress-shimmer h-full rounded-full transition-all duration-500" style="width: 16.6%;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ (6 ПОШАГОВЫХ ЭКРАНОВ) -->
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 py-4 sm:py-8 flex-1 w-full relative z-10">
+
+    <!-- =====================================================
+         ЭКРАН 1: ОКНО ПРИВЕТСТВИЯ
+         ===================================================== -->
+    <section id="screen-1" class="step-screen active">
+      <div class="card-surface rounded-3xl overflow-hidden shadow-xl">
+        
+        <!-- Иллюстративный Hero-баннер с анимацией ЭКГ и картинкой -->
+        <div class="hero-banner p-5 sm:p-8 text-white relative overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+            <div class="md:col-span-7">
+              <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md px-3 py-1 rounded-full mb-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+                Интерактивный портал здоровья
+              </span>
+              <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight mb-2.5">
+                Формирование ценности здорового и безопасного стиля жизни
+              </h1>
+              <p class="text-emerald-50 text-xs sm:text-sm leading-relaxed">
+                Проверь свой ресурс организма, разбери реальные рабочие ситуации в цеху и офисе и получи персонального Telegram-помощника для укрепления полезных привычек.
+              </p>
+
+              <!-- Анимированная векторная линия пульса (ЭКГ) -->
+              <div class="mt-4">
+                <svg class="ecg-line w-full max-w-[260px] h-10" viewBox="0 0 300 50" fill="none">
+                  <path class="ecg-path" d="M0 25 L60 25 L75 10 L90 42 L108 4 L125 45 L140 20 L155 25 L300 25" stroke="#a7f3d0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Тематическая иллюстрация здоровья -->
+            <div class="md:col-span-5 flex justify-center">
+              <div class="hero-illustration-box relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" 
+                  alt="Здоровье, баланс и энергия" 
+                  class="w-full h-44 sm:h-52 object-cover rounded-2xl shadow-lg border-2 border-white/30"
+                />
+                <div class="floating-badge badge-top bg-white text-slate-800 px-3 py-1.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-1.5">
+                  <span>⚡</span> <span>Энергия без химии</span>
+                </div>
+                <div class="floating-badge badge-bottom bg-emerald-900/90 backdrop-blur text-emerald-100 px-3 py-1.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-1.5">
+                  <span>🛡️</span> <span>100% Безопасность</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Тело приветственного экрана -->
+        <div class="p-5 sm:p-8">
+          <h2 class="text-base sm:text-lg font-extrabold text-slate-800 mb-3.5">Маршрут нашей сегодняшней встречи:</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+            <div class="step-preview-card bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center text-xl mb-2">📊</div>
+              <div class="font-bold text-sm text-slate-800">1. Твой образ и тест</div>
+              <p class="text-xs text-slate-600 mt-1">Оценим текущие привычки, режим сна, питание и базовые знания по охране труда.</p>
+            </div>
+            <div class="step-preview-card bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center text-xl mb-2">🏭</div>
+              <div class="font-bold text-sm text-slate-800">2. 6 кейсов и ЗОЖ</div>
+              <p class="text-xs text-slate-600 mt-1">Обсудим реальные ситуации на линии, переходы моделей, энергетики и 6 столпов здоровья.</p>
+            </div>
+            <div class="step-preview-card bg-sky-50/70 border border-sky-200/80 rounded-2xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-700 flex items-center justify-center text-xl mb-2">🤖</div>
+              <div class="font-bold text-sm text-slate-800">3. Аналитика и Бот</div>
+              <p class="text-xs text-slate-600 mt-1">Сравним прогресс, разберем ошибки и запустим личного помощника по QR-коду.</p>
+            </div>
+          </div>
+
+          <!-- Поле ввода имени (адаптировано под мобильную клавиатуру) -->
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-6">
+            <label for="participantName" class="block font-bold text-sm text-slate-800 mb-2">
+              Как к тебе обращаться? (Имя или Фамилия): <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="participantName" 
+              autocomplete="given-name"
+              placeholder="Например: Алексей" 
+              class="mobile-input w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-slate-900 font-medium focus:outline-none focus:border-emerald-500 focus:ring-3 focus:ring-emerald-200 transition"
+            />
+            <p id="nameError" class="text-xs text-rose-600 font-semibold mt-2 hidden">
+              ⚠️ Пожалуйста, укажи свое имя, чтобы мы сформировали твою личную статистику.
+            </p>
+          </div>
+
+          <button onclick="startStep2()" class="btn-primary w-full text-white font-bold py-4 px-6 rounded-2xl shadow-lg text-base flex items-center justify-center gap-2">
+            <span>Поехали! Перейти к стартовому тесту</span>
+            <span class="text-lg">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ЭКРАН 2: ВХОДНОЙ ТЕСТ №1 (24 ВОПРОСА)
+         ===================================================== -->
+    <section id="screen-2" class="step-screen">
+      <div class="card-surface rounded-3xl p-4 sm:p-8 shadow-xl mb-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-5">
+          <div>
+            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+              Этап 1 • Стартовый опрос
+            </span>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-800 mt-2">
+              Формируем твой образ здоровья и проверяем знания
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Выбирай вариант, который ближе всего к твоей реальной жизни. В первой части нет «плохих» оценок — она нужна для твоего портрета.
+            </p>
+          </div>
+          <button onclick="demoFillPreTest()" class="text-xs bg-slate-100 hover:bg-emerald-100 text-slate-700 font-semibold px-3 py-2 rounded-xl transition shrink-0">
+            ⚡ Автозаполнение (Демо)
+          </button>
+        </div>
+
+        <!-- Плавающий индикатор отвеченных вопросов для смартфонов -->
+        <div class="sticky top-[68px] z-30 bg-white/95 backdrop-blur border border-emerald-100 rounded-xl px-3.5 py-2 mb-5 shadow-sm flex items-center justify-between text-xs">
+          <span class="font-semibold text-slate-600">Заполнено вопросов:</span>
+          <span id="preProgressCounter" class="font-extrabold text-emerald-700">0 из 24</span>
+        </div>
+
+        <div id="preTestContainer" class="space-y-6"></div>
+
+        <div id="preTestError" class="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-semibold hidden">
+          ⚠️ Ты пропустил один или несколько вопросов (они подсвечены красной рамкой). Ответь на них, чтобы записать результат!
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+          <button onclick="submitPreTest()" class="btn-primary w-full text-white font-bold py-4 px-6 rounded-2xl shadow-lg text-base">
+            Записать ответ и перейти к разбору кейсов →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ЭКРАН 3: КЕЙСЫ (ПРЕДЛОГ + 6 СИТУАЦИЙ С КАРТИНКАМИ)
+         ===================================================== -->
+    <section id="screen-3" class="step-screen">
+      <!-- Предлог к живому обсуждению -->
+      <div class="bg-gradient-to-br from-amber-50 via-white to-emerald-50 border border-amber-200 rounded-3xl p-5 sm:p-8 mb-6 shadow-md">
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center text-3xl shrink-0 shadow-md">
+            💬
+          </div>
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2.5 py-1 rounded-full">
+              Ответы успешно записаны • Живое обсуждение
+            </span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-2">
+              <span class="user-name-placeholder">Коллега</span>, давай обсудим ситуации, которые бывают у нас на работе и дома!
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-700 mt-2 leading-relaxed">
+              Мы каждый день сталкиваемся с одними и теми же вещами: пищащая станция «пробойки», желание перепрыгнуть движущуюся линию прогона, банки энергетиков с вейпом на перекурах, нервные переходы мелких лотов и телефон до двух ночи. Нажимай на переключатели внутри каждой карточки, чтобы сравнить <strong>привычный риск</strong> и <strong>правильное решение</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Список 6 иллюстрированных кейсов -->
+      <div id="casesListContainer" class="space-y-6 mb-8"></div>
+
+      <div class="card-surface rounded-3xl p-5 sm:p-6 shadow-md text-center">
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Кейсы разобраны! Теперь давай посмотрим, из каких 6 фундаментальных столпов складывается культура здоровья каждого человека.
+        </p>
+        <button onclick="goToStep(4)" class="btn-primary w-full sm:w-auto text-white font-bold py-4 px-8 rounded-2xl shadow-lg text-base">
+          Перейти к диалогу о здоровье и 6 столпам →
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ЭКРАН 4: БОЛЬШОЙ ДИАЛОГ О ЗДОРОВЬЕ + АНИМАЦИЯ ДЫХАНИЯ
+         ===================================================== -->
+    <section id="screen-4" class="step-screen">
+      <!-- Главный мотивационный блок с иллюстрацией -->
+      <div class="card-surface rounded-3xl p-5 sm:p-8 shadow-xl mb-6 overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mb-6">
+          <div class="md:col-span-7">
+            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+              Этап 3 • Фундамент здоровья и дисциплины
+            </span>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-slate-800 mt-2 mb-3">
+              Здоровье — это ресурс, который нельзя взять в кредит
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Когда мы молоды и полны сил, кажется, что организм простит всё: сон по 5 часов, литры энергетиков, никотин, подъемы тяжелых экранов рывком и работу на нервах. Но ресурс тела конечен. Трудовая дисциплина и культура здоровья нужны в первую очередь <strong>тебе и твоей семье</strong>, а не для галочки в журнале инструктажа.
+            </p>
+          </div>
+          <div class="md:col-span-5">
+            <img 
+              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80" 
+              alt="Гармония и физическое здоровье" 
+              class="w-full h-44 sm:h-48 object-cover rounded-2xl shadow-md border border-emerald-100"
+            />
+          </div>
+        </div>
+
+        <!-- Три критерия здоровья -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4">
+          <div class="bg-white/80 rounded-xl p-3">
+            <div class="font-bold text-xs sm:text-sm text-emerald-900">🧠 1. Когнитивный (Знаю)</div>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Понимание законов физиологии, сна, питания и правил охраны труда (Постановление № 53, СТБ ISO 45001).</p>
+          </div>
+          <div class="bg-white/80 rounded-xl p-3">
+            <div class="font-bold text-xs sm:text-sm text-emerald-900">❤️ 2. Ценностный (Ценю)</div>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Отношение к своему здоровью и безопасности как к главному жизненному приоритету.</p>
+          </div>
+          <div class="bg-white/80 rounded-xl p-3">
+            <div class="font-bold text-xs sm:text-sm text-emerald-900">⚡ 3. Деятельностный (Делаю)</div>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Ежедневные привычки: обойти линию прогона, выпить воды, размять спину и вовремя лечь спать.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 столпов культуры здоровья с иллюстрациями -->
+      <h3 class="text-lg sm:text-xl font-extrabold text-slate-800 mb-4 px-1">6 основных столпов культуры здоровья:</h3>
+      <div id="pillarsDetailContainer" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8"></div>
+
+      <!-- Интерактивные виджеты: Калькулятор стимуляторов + Анимированная сфера дыхания -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Виджет 1: Калькулятор энергетиков и вейпа -->
+        <div class="card-surface border-rose-200 rounded-3xl p-5 sm:p-6 shadow-md">
+          <div class="flex items-center gap-2 text-rose-600 font-extrabold text-base sm:text-lg mb-1">
+            <span>🧨</span>
+            <h4>Калькулятор износа: Энергетики и Вейп</h4>
+          </div>
+          <p class="text-xs text-slate-500 mb-4">
+            Посмотри, какую нагрузку получает сердце и сосуды за 1 рабочий год (250 смен):
+          </p>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-semibold mb-1.5">
+                <span class="text-slate-700">Банок энергетика в день:</span>
+                <span id="stimCansLabel" class="font-extrabold text-rose-600">1 банка</span>
+              </div>
+              <input type="range" id="stimCansRange" min="0" max="4" value="1" oninput="recalcStimulators()" class="w-full accent-rose-500 h-2 bg-rose-100 rounded-lg cursor-pointer" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-semibold mb-1.5">
+                <span class="text-slate-700">Перекуров / вейп-сессий за смену:</span>
+                <span id="stimVapeLabel" class="font-extrabold text-rose-600">6 раз</span>
+              </div>
+              <input type="range" id="stimVapeRange" min="0" max="15" value="6" oninput="recalcStimulators()" class="w-full accent-rose-500 h-2 bg-rose-100 rounded-lg cursor-pointer" />
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-2">
+              <div class="bg-rose-50 border border-rose-100 rounded-2xl p-2.5 sm:p-3 text-center">
+                <div id="stimSugarOut" class="text-base sm:text-lg font-extrabold text-rose-700">13.5 кг</div>
+                <div class="text-[10px] sm:text-[11px] text-slate-600">сахара в год</div>
+              </div>
+              <div class="bg-amber-50 border border-amber-100 rounded-2xl p-2.5 sm:p-3 text-center">
+                <div id="stimHoursOut" class="text-base sm:text-lg font-extrabold text-amber-700">125 ч</div>
+                <div class="text-[10px] sm:text-[11px] text-slate-600">спазма сосудов</div>
+              </div>
+              <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-2.5 sm:p-3 text-center">
+                <div id="stimMoneyOut" class="text-base sm:text-lg font-extrabold text-emerald-700">1 925 BYN</div>
+                <div class="text-[10px] sm:text-[11px] text-slate-600">трат в год</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Виджет 2: Живая анимированная сфера дыхания и разгрузки глаз -->
+        <div class="card-surface border-emerald-200 rounded-3xl p-5 sm:p-6 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-emerald-700 font-extrabold text-base sm:text-lg mb-1">
+              <span>🧘‍♂️</span>
+              <h4>Живой тренажер: Разгрузка за 20 секунд</h4>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">
+              Снимает спазм глаз после белого поля матриц и гасит кортизол после споров на переходе моделей:
+            </p>
+
+            <!-- Анимированный круг дыхания -->
+            <div class="flex flex-col items-center justify-center py-3">
+              <div id="breathingCircle" class="breathing-sphere w-28 h-28 rounded-full flex flex-col items-center justify-center text-center shadow-inner">
+                <span id="breathTimerDisplay" class="text-2xl font-extrabold text-emerald-800">20 с</span>
+                <span id="breathPhaseLabel" class="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Готов</span>
+              </div>
+              <p id="breathTimerText" class="text-xs text-slate-600 text-center mt-3 max-w-xs">
+                Нажми старт, смотри вдаль на 6 метров и дыши синхронно с пульсацией сферы.
+              </p>
+            </div>
+          </div>
+
+          <button onclick="runPracticeTimer()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow transition text-sm">
+            ▶ Запустить практику перезагрузки
+          </button>
+        </div>
+      </div>
+
+      <!-- Переход к Повторному тесту -->
+      <div class="card-surface rounded-3xl p-5 sm:p-6 shadow-md text-center">
+        <h4 class="font-extrabold text-base sm:text-lg text-slate-800 mb-1">Закрепим результат!</h4>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Пройди короткий итоговый тест (12 вопросов), чтобы система сравнила твои ответы, показала разбор ошибок и сгенерировала QR-код для бота.
+        </p>
+        <button onclick="goToStep(5)" class="btn-primary w-full sm:w-auto text-white font-bold py-4 px-8 rounded-2xl shadow-lg text-base">
+          Перейти к итоговому тесту →
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ЭКРАН 5: ПОВТОРНЫЙ ТЕСТ №2 (12 ВОПРОСОВ)
+         ===================================================== -->
+    <section id="screen-5" class="step-screen">
+      <div class="card-surface rounded-3xl p-4 sm:p-8 shadow-xl mb-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-5">
+          <div>
+            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100 px-3 py-1 rounded-full">
+              Этап 4 • Итоговая проверка
+            </span>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-800 mt-2">
+              <span class="user-name-placeholder">Участник</span>, проверим, что изменилось!
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Имя уже сохранено. Про старые привычки больше не спрашиваем — только решения по кейсам и твоя цель на ближайшие 2 недели.
+            </p>
+          </div>
+          <button onclick="demoFillPostTest()" class="text-xs bg-slate-100 hover:bg-emerald-100 text-slate-700 font-semibold px-3 py-2 rounded-xl transition shrink-0">
+            ⚡ Автозаполнение (Демо)
+          </button>
+        </div>
+
+        <!-- Индикатор прогресса Теста 2 -->
+        <div class="sticky top-[68px] z-30 bg-white/95 backdrop-blur border border-sky-100 rounded-xl px-3.5 py-2 mb-5 shadow-sm flex items-center justify-between text-xs">
+          <span class="font-semibold text-slate-600">Отвечено вопросов:</span>
+          <span id="postProgressCounter" class="font-extrabold text-sky-700">0 из 12</span>
+        </div>
+
+        <div id="postTestContainer" class="space-y-6"></div>
+
+        <div id="postTestError" class="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-semibold hidden">
+          ⚠️ Ответь, пожалуйста, на все 12 вопросов (пропущенные подсвечены красной рамкой).
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+          <button onclick="finishAllTests()" class="btn-primary w-full text-white font-bold py-4 px-6 rounded-2xl shadow-lg text-base">
+            ✓ Завершить тест и получить персональный разбор
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ЭКРАН 6: ФИНАЛЬНОЕ ОКНО (АНАЛИТИКА, ОШИБКИ, QR БОТА)
+         ===================================================== -->
+    <section id="screen-6" class="step-screen">
+      <div class="card-surface rounded-3xl p-4 sm:p-8 shadow-xl mb-6">
+        
+        <!-- Верхняя плашка поздравления -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-5 mb-6">
+          <div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full mb-2">
+              🎉 Тестирование завершено
+            </span>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-slate-800">
+              <span class="user-name-placeholder">Участник</span>, твоя личная аналитика готова!
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Посмотри на свой профиль здоровья, разбор ошибок в двух тестах и подключи персонального Telegram-бота.
+            </p>
+          </div>
+          <div id="adminSyncBadge" class="text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 self-start sm:self-center shrink-0">
+            ⏳ Сохранение данных...
+          </div>
+        </div>
+
+        <!-- 3 главные карточки цифр -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-8">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+            <div class="text-[11px] font-bold text-slate-500 uppercase">Индекс образа жизни</div>
+            <div id="finalLifestyleScore" class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">— / 47</div>
+            <div class="text-xs text-emerald-700 font-medium mt-1">По 4 блокам привычек</div>
+          </div>
+          <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-4 text-center">
+            <div class="text-[11px] font-bold text-amber-800 uppercase">Знания ДО разбора</div>
+            <div id="finalPreKnowledge" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">0 из 8 (0%)</div>
+            <div class="text-xs text-slate-600 mt-1">Тест №1 (Исходный)</div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-300 rounded-2xl p-4 text-center">
+            <div class="text-[11px] font-bold text-emerald-800 uppercase">Знания ПОСЛЕ разбора</div>
+            <div id="finalPostKnowledge" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0 из 8 (0%)</div>
+            <div id="finalProgressDelta" class="text-xs font-extrabold text-emerald-700 mt-1">Прирост знаний</div>
+          </div>
+        </div>
+
+        <!-- Радар образа жизни + полосы по 4 блокам -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 items-center">
+          <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5">
+            <h3 class="font-bold text-sm text-center text-slate-800 mb-1">Радар культуры здоровья</h3>
+            <p class="text-[11px] text-slate-500 text-center mb-3">Баланс твоих повседневных привычек (%)</p>
+            <div class="max-w-[240px] mx-auto">
+              <canvas id="finalRadarChart"></canvas>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 space-y-3" id="lifestyleBlocksSummary"></div>
+        </div>
+
+        <!-- РАЗБОР ОШИБОК (ЧЕМУ НАУЧИЛСЯ И ЧТО ПОНЯЛ) -->
+        <div class="mb-8">
+          <h3 class="text-lg sm:text-xl font-extrabold text-slate-800 mb-1.5">
+            🔍 Работа над ошибками: чему ты научился
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4">
+            Система сопоставила твои ответы по 8 темам безопасности и ЗОЖ до нашего диалога и после него:
+          </p>
+          <div id="errorAnalysisContainer" class="space-y-3"></div>
+        </div>
+
+        <!-- КАРТОЧКА С QR-КОДОМ ДЛЯ БОТА-ПОМОЩНИКА (БОТ №2) -->
+        <div class="bot-cta-card rounded-3xl p-5 sm:p-8 text-white shadow-xl">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div class="md:col-span-7">
+              <span class="inline-block text-[11px] font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full mb-3">
+                Формирование привычки • 14 дней
+              </span>
+              <h3 class="text-xl sm:text-2xl font-extrabold mb-2">
+                Твой личный Telegram-бот помощник готов!
+              </h3>
+              <p class="text-emerald-50 text-xs sm:text-sm leading-relaxed mb-4">
+                Сканируй QR-код или нажми кнопку ниже. Бот уже знает твои результаты и выбранную цель — он будет присылать тебе короткие жизненные напоминалки (про воду вместо энергетиков, разминку спины, отдых для глаз и безопасность у конвейера).
+              </p>
+              <div id="botPersonalSummary" class="bg-black/15 backdrop-blur border border-white/20 rounded-xl p-3.5 text-xs text-emerald-50 mb-4"></div>
+
+              <a id="helperBotBtn" href="#" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white text-emerald-900 hover:bg-emerald-50 font-extrabold py-4 px-6 rounded-2xl shadow-lg transition text-sm w-full sm:w-auto">
+                <span>🚀 Запустить бота-помощника в Telegram</span>
+              </a>
+            </div>
+
+            <div class="md:col-span-5 text-center">
+              <div class="bg-white p-4 rounded-2xl inline-block shadow-2xl">
+                <img id="helperBotQr" src="" alt="QR-код Telegram-бота" class="w-40 h-40 sm:w-44 sm:h-44 mx-auto rounded-lg" />
+                <div class="text-[11px] font-bold text-slate-700 mt-2">Наведи камеру телефона</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Нижняя панель резервного копирования -->
+        <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 text-center sm:text-left">
+          <span>🎁 Не забудь получить подарочный буклет «6 столпов культуры здоровья»!</span>
+          <button onclick="copyReportToClipboard()" class="text-emerald-700 font-semibold hover:underline">
+            Скопировать текстовый отчет
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer class="bg-white/80 backdrop-blur border-t border-emerald-100 py-4 px-4 text-center text-[11px] sm:text-xs text-slate-500 relative z-10">
+    Курсовое проектирование • Мальдис Р. С. • Руководитель: канд. пед. наук, доц. Славинская О. В. • БГУИР, 2026
+  </footer>
+
+  <!-- Подключение логики и бекенд-интеграции -->
+  <script src="app.js"></script>
+</body>
+</html>
