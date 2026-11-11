@@ -9,7 +9,7 @@
  *************************************************************************/
 const _p1 = ["92522", "44548"].join("");
 const _p2 = ["AAGtA0Zkq6ARDTp2Q", "kXdyDnQZ4EvdeYM7mM"].join("");
-
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzawGcjCiHcir1wGiKru7dq4A3yKFtMD7r-Pn_W4tgs7V5QNv9c2IzU6PJCuk1oW_e/exec";
 const ADMIN_BOT_TOKEN = _p1 + ":" + _p2;
 const ADMIN_CHAT_ID = "633684373";
 const HELPER_BOT_USERNAME = "HtvHealthHelper_bot";
@@ -18,6 +18,7 @@ const STORAGE_KEY = "horizont_health_session_v3";
 
 // Глобальное состояние участника (сохраняется в localStorage при каждом действии)
 let participantState = {
+  sid: "",
   currentStep: 1,
   name: "",
   rawRadios: {},           // Сохраняет выбранные индексы ВСЕХ радиокнопок для мгновенного восстановления
@@ -368,7 +369,7 @@ const postReflectionQuestions = [
   },
   {
     id: 11,
-    q: "11. [Цель для Telegram-бота] Какую главную личную цель на ближайшие 2 недели вы ставите себе в пару с нашим ботом-помощником?",
+    q: "11. [Цель для Telegram-бота] Какой главный ориентир вы ставите себе в пару с нашим ботом-помощником?",
     options: [
       { text: "Убрать/сократить энергетики и вейп + наладить питьевой режим и питание", score: 3, goalCode: "no_energy_vape" },
       { text: "Прокачать все 6 столпов: безопасность на линии, спина/глаза, чистая вода и полноценный сон", score: 3, goalCode: "all_6_pillars" },
@@ -1149,7 +1150,7 @@ function demoFillPostTest() {
 }
 
 // =========================================================================
-// ЗАВЕРШЕНИЕ ТЕСТА, РАЗБОР ОШИБОК И ОТПРАВКА В АДМИН-БОТ (ЭКРАН 6)
+// ЗАВЕРШЕНИЕ ТЕСТА, РАЗБОР ОШИБОК И ОТПРАВКА В GOOGLE ТАБЛИЦУ + БОТОВ (ЭКРАН 6)
 // =========================================================================
 let radarChartObj = null;
 
@@ -1230,7 +1231,7 @@ function buildFinalResultsScreen(isRestoring = false) {
     </div>
   `).join("");
 
-  // ИСПРАВЛЕННЫЙ РАДАР (Двустрочные метки + внутренний padding, чтобы ничего не обрезалось!)
+  // РАДАР КУЛЬТУРЫ ЗДОРОВЬЯ
   const ctx = document.getElementById("finalRadarChart").getContext("2d");
   if (radarChartObj) radarChartObj.destroy();
   radarChartObj = new Chart(ctx, {
@@ -1327,23 +1328,75 @@ function buildFinalResultsScreen(isRestoring = false) {
   document.getElementById("finalPostKnowledge").textContent = `${postCorrect} из 8 (${postPct}%)`;
   document.getElementById("finalProgressDelta").textContent = deltaPct >= 0 ? `Прирост: +${deltaPct}%` : `Динамика: ${deltaPct}%`;
 
-  // Генерация персональной ссылки и QR-кода для Бота-помощника (Бот №2)
+  // Генерация уникального кода анкеты (sid), чтобы передать в Бота №2 имя с сайта, все ответы и статистику
+  if (!participantState.sid) {
+    participantState.sid = "sid_" + Math.floor(100000 + Math.random() * 900000);
+  }
+
   const chosenGoalObj = participantState.postReflectAnswers[11] || { goalCode: "all_6_pillars", text: "Все 6 столпов здоровья" };
   const weakHabitTag = participantState.preHabitsAnswers[14]?.tag || "general";
-  const startPayload = `goal_${chosenGoalObj.goalCode}_focus_${weakHabitTag}_score_${postCorrect}`;
-  const helperBotUrl = `https://t.me/${HELPER_BOT_USERNAME}?start=${startPayload}`;
+  const helperBotUrl = `https://t.me/${HELPER_BOT_USERNAME}?start=${participantState.sid}`;
 
   document.getElementById("helperBotBtn").href = helperBotUrl;
   document.getElementById("helperBotQr").src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(helperBotUrl)}`;
   document.getElementById("botPersonalSummary").innerHTML = `
-    <strong>Твоя цель на 2 недели:</strong> ${chosenGoalObj.text}<br/>
-    <span class="opacity-80">Персональный код профиля: <code>${startPayload}</code></span>
+    <strong>Анкета привязана:</strong> ${participantState.name}<br/>
+    <strong>Выбранный ориентир:</strong> ${chosenGoalObj.text}<br/>
+    <span class="opacity-80">Код анкеты: <code>${participantState.sid}</code></span>
   `;
 
-  // Сборка отчета для Админ-бота Родиона (Бот №1)
+  // Собираем полную сводку всех 36 ответов (Тест 1: 1–24, Тест 2: 1–12)
+  const letters = ["А", "Б", "В"];
+  const rawHabitsStr = preHabitsQuestions.map(q => {
+    const idx = participantState.rawRadios[`pre_habit_${q.id}`];
+    return `В${q.id}:${letters[idx] || "?"}(${participantState.preHabitsAnswers[q.id]?.score || 0}б)`;
+  }).join(", ");
+
+  const rawPreKnowStr = knowledgeTopics.map((_, i) => {
+    const ans = participantState.preKnowledgeAnswers[i];
+    return `В${17 + i}:${letters[ans?.selectedIdx] || "?"}(${ans?.isCorrect ? "Верно" : "Ош"})`;
+  }).join(", ");
+
+  const rawPostKnowStr = knowledgeTopics.map((_, i) => {
+    const ans = participantState.postKnowledgeAnswers[i];
+    return `Т2_В${1 + i}:${letters[ans?.selectedIdx] || "?"}(${ans?.isCorrect ? "Верно" : "Ош"})`;
+  }).join(", ");
+
+  const rawPostRefStr = postReflectionQuestions.map(q => {
+    const idx = participantState.rawRadios[`post_ref_${q.id}`];
+    return `Т2_В${q.id}:${letters[idx] || "?"}`;
+  }).join(", ");
+
+  const rawAnswersSummary = `Тест1(Привычки 1-16): [${rawHabitsStr}] | Тест1(Знания ДО 17-24): [${rawPreKnowStr}] | Тест2(Знания ПОСЛЕ 1-8): [${rawPostKnowStr}] | Тест2(Рефлексия 9-12): [${rawPostRefStr}]`;
+
+  // Полный пакет данных для отправки в Google Таблицу и Бота №2
+  const fullWebPayload = {
+    source: "web_portal",
+    sid: participantState.sid,
+    name: participantState.name,
+    lifestyleTotal: totalLifestyle,
+    b1Pct: b1Pct,
+    b2Pct: b2Pct,
+    b3Pct: b3Pct,
+    b4Pct: b4Pct,
+    preCorrect: preCorrect,
+    prePct: prePct,
+    postCorrect: postCorrect,
+    postPct: postPct,
+    deltaPct: deltaPct,
+    topicsLog: adminErrorsLog,
+    rawAnswersSummary: rawAnswersSummary,
+    goalCode: chosenGoalObj.goalCode,
+    goalText: chosenGoalObj.text,
+    weakHabitTag: weakHabitTag,
+    feedbackText: participantState.postReflectAnswers[12]?.text || ""
+  };
+
+  // Сборка текстового отчета для Бота №1 (@HorizontHealthAdminLog_bot)
   const reportLines = [
     `📊 НОВЫЙ ПРОТОКОЛ АПРОБАЦИИ (ОАО «Горизонт»)`,
-    `👤 Участник: ${participantState.name}`,
+    `👤 Участник (имя с сайта): ${participantState.name}`,
+    `🆔 Код анкеты: ${participantState.sid}`,
     `🕒 Дата: ${new Date().toLocaleString("ru-RU")}`,
     ``,
     `🔹 ПРОФИЛЬ ОБРАЗА ЖИЗНИ (Тест 1, Раздел А): ${totalLifestyle} из 47`,
@@ -1360,6 +1413,9 @@ function buildFinalResultsScreen(isRestoring = false) {
     `🔍 РАЗБОР ПО 8 ТЕМАМ:`,
     ...adminErrorsLog,
     ``,
+    `📝 ВСЕ ОТВЕТЫ НА 36 ВОПРОСОВ:`,
+    rawAnswersSummary,
+    ``,
     `🎯 ВЫБРАННАЯ ЦЕЛЬ В БОТЕ (Вопрос 11): ${chosenGoalObj.text}`,
     `💬 ОЦЕНКА ВСТРЕЧИ (Вопрос 12): ${participantState.postReflectAnswers[12]?.text || ""}`
   ];
@@ -1368,7 +1424,7 @@ function buildFinalResultsScreen(isRestoring = false) {
   saveProgress();
 
   if (!isRestoring || !participantState.reportSentToAdmin) {
-    sendToTelegramAdminBackend(participantState.lastReportText);
+    sendToTelegramAdminBackend(participantState.lastReportText, fullWebPayload);
   } else {
     const badge = document.getElementById("adminSyncBadge");
     badge.className = "text-xs font-bold px-3.5 py-2 rounded-xl bg-emerald-100 text-emerald-800 self-start sm:self-center shrink-0";
@@ -1377,14 +1433,27 @@ function buildFinalResultsScreen(isRestoring = false) {
 }
 
 // =========================================================================
-// ОТПРАВКА ОТЧЕТА В АДМИН-БОТ (БОТ №1) ЧЕРЕЗ TELEGRAM BOT API
+// ОТПРАВКА ДАННЫХ В GOOGLE ТАБЛИЦУ (БОТ №2) И В АДМИН-БОТ (БОТ №1)
 // =========================================================================
-async function sendToTelegramAdminBackend(reportText) {
+async function sendToTelegramAdminBackend(reportText, fullWebPayload) {
   const badge = document.getElementById("adminSyncBadge");
 
+  // 1. Отправляем полное досье (Имя с сайта, все 36 ответов и статистику) в Google Таблицу
+  if (typeof GOOGLE_SCRIPT_URL !== "undefined" && GOOGLE_SCRIPT_URL.startsWith("https://")) {
+    try {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(fullWebPayload)
+      });
+    } catch (e) {}
+  }
+
+  // 2. Отправляем полный протокол в Бот №1 (@HorizontHealthAdminLog_bot)
   if (!ADMIN_BOT_TOKEN || !ADMIN_CHAT_ID) {
     badge.className = "text-xs font-semibold px-3.5 py-2 rounded-xl bg-amber-100 text-amber-800 self-start sm:self-center shrink-0";
-    badge.textContent = "ℹ️ Локальный режим (добавь ADMIN_BOT_TOKEN в app.js)";
+    badge.textContent = "ℹ️ Локальный режим";
     return;
   }
 
@@ -1402,7 +1471,7 @@ async function sendToTelegramAdminBackend(reportText) {
       participantState.reportSentToAdmin = true;
       saveProgress();
       badge.className = "text-xs font-bold px-3.5 py-2 rounded-xl bg-emerald-100 text-emerald-800 self-start sm:self-center shrink-0";
-      badge.textContent = "✓ Статистика отправлена организатору";
+      badge.textContent = "✓ Анкета сохранена в базу и отправлена организатору";
     } else {
       throw new Error("Telegram API response error");
     }
