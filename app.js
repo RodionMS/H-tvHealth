@@ -966,13 +966,13 @@ function recalcStimulators() {
 
   const sugarKg = ((cans * 54 * 250) / 1000).toFixed(1);
   const hoursSpasm = Math.round((vapes * 5 * 250) / 60);
-  const moneyByn = Math.round((cans * 4.2 + (vapes > 0 ? 3.5 : 0)) * 250);
+  // Теперь цена растет за каждую банку (3.5 BYN) И за каждый перекур/вейп-сессию (0.35 BYN)
+  const moneyByn = Math.round((cans * 3.5 + vapes * 0.35) * 250);
 
   document.getElementById("stimSugarOut").textContent = `${sugarKg} кг`;
   document.getElementById("stimHoursOut").textContent = `${hoursSpasm} ч`;
   document.getElementById("stimMoneyOut").textContent = `${moneyByn} BYN`;
 }
-
 // Живой тренажер дыхания с полноценным переключением Старт / Стоп
 let practiceInterval = null;
 let isPracticeRunning = false;
