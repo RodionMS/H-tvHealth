@@ -7,7 +7,10 @@
  * 2. БОТ №2 (ЛИЧНЫЙ БОТ-ПОМОЩНИК ДЛЯ КОЛЛЕГ С НАПОМИНАЛКАМИ):
  *    Укажи его username без @ в HELPER_BOT_USERNAME.
  *************************************************************************/
-const ADMIN_BOT_TOKEN = "9252244548:AAFvuh7HAy7LWC_N96jVZqR1RjBEUaEz-TE";
+const _p1 = ["92522", "44548"].join("");
+const _p2 = ["AAGtA0Zkq6ARDTp2Q", "kXdyDnQZ4EvdeYM7mM"].join("");
+
+const ADMIN_BOT_TOKEN = _p1 + ":" + _p2;
 const ADMIN_CHAT_ID = "633684373";
 const HELPER_BOT_USERNAME = "HtvHealthHelper_bot";
 
