@@ -340,11 +340,11 @@ const knowledgeTopics = [
   {
     topicId: "hygiene",
     topicName: "8. Производственная санитария, «чистая комната» и антистатика (ESD)",
-    preQ: "24. [Проверка знаний] Какую защитную функцию выполняет встроенный резистор сопротивлением 1 МОм в антистатическом браслете (ESD) при работе с открытыми жидкокристаллическими панелями (Open Cell) и печатными платами?",
+    preQ: "24. [Проверка знаний] Почему при работе с открытыми жидкокристаллическими панелями (Open Cell) и печатными платами важно использовать исправный антистатический браслет (ESD) и к чему может привести его отсутствие?",
     preOptions: [
-      { text: "Ускоряет стекание статического заряда для предотвращения полос на экране", correct: false },
-      { text: "Предотвращает разряд элементов питания контрольно-измерительных приборов", correct: false },
-      { text: "Обеспечивает электробезопасность сотрудника: при случайном попадании сетевого напряжения 220 В на рабочую поверхность резистор 1 МОм ограничивает ток через тело человека до безопасного значения", correct: true } // В
+      { text: "Браслет нужен только для формального соблюдения инструкции, так как статическое электричество на сборочном участке не возникает", correct: false },
+      { text: "Работа без браслета позволяет быстрее выполнять операции и никак не влияет ни на электронику, ни на безопасность человека", correct: false },
+      { text: "Без браслета статический разряд с тела человека выводит из строя микросхемы и драйверы матрицы (появляются полосы и скрытый брак), а встроенный в браслет резистор 1 МОм дополнительно защищает сотрудника при случайном попадании 220 В на шасси", correct: true } // В
     ],
     postQ: "8. [Контроль знаний] Какие требования производственной и личной гигиены обязательны при работе в «чистой комнате», сопровождении сборочной линии и контроле образцов?",
     postOptions: [
@@ -352,7 +352,7 @@ const knowledgeTopics = [
       { text: "Соблюдать регламент экипировки «чистой комнаты» (антистатический комбинезон, перчатки, маска), использовать исправный ESD-браслет с резистором 1 МОм, тщательно мыть руки перед едой (не прикасаясь к глазам в цеху) и принимать пищу вне рабочих мест", correct: true }, // Б
       { text: "Работать с открытыми оптическими слоями и платами без перчаток и защитного заземления", correct: false }
     ],
-    explanation: "Резистор 1 МОм в антистатическом браслете защищает работника от поражения электрическим током при нештатном пробое фазы на корпус. Соблюдение регламента «чистой комнаты», мытье рук после контакта с комплектующими и прием пищи только в отведенных местах защищают продукцию от загрязнений, а сотрудников — от раздражения слизистых и инфекций."
+    explanation: "Использование антистатического браслета решает сразу две задачи: отводит статический заряд, предотвращая пробой чувствительных шлейфов матрицы Open Cell, и за счет резистора 1 МОм защищает самого работника от поражения током при нештатном попадании сетевого напряжения 220 В на корпус. Спецодежда в «чистой комнате» и мытье рук после цеха защищают оптику от пыли, а глаза и ЖКТ сотрудника — от раздражения и инфекций."
   }
 ];
 
@@ -378,7 +378,7 @@ const postReflectionQuestions = [
   },
   {
     id: 11,
-    q: "11. [Ориентир сопровождения] Какое приоритетное направление вы выбираете для индивидуальных напоминаний в Telegram-боте помощнике?",
+    q: "11. [Ориентир для бота] Какое приоритетное направление вы выбираете для индивидуальных напоминаний в Telegram-боте помощнике?",
     options: [
       { text: "Рациональное питание, поддержание водного баланса и сокращение потребления стимуляторов и никотина", score: 3, goalCode: "no_energy_vape" },
       { text: "Комплексная поддержка всех 6 составляющих: безопасность в цеху, профилактика утомления глаз и спины, режим сна и питания", score: 3, goalCode: "all_6_pillars" },
@@ -868,15 +868,15 @@ function submitPreTest() {
 }
 
 // =========================================================================
-// РЕНДЕР 6 ПРОИЗВОДСТВЕННЫХ КЕЙСОВ (ЭКРАН 3)
+// РЕНДЕР 6 ПРОИЗВОДСТВЕННЫХ КЕЙСОВ С ФИКСИРОВАННОЙ ВЫСОТОЙ ВКЛАДОК (ЭКРАН 3)
 // =========================================================================
 function renderCasesCards() {
   const container = document.getElementById("casesListContainer");
   container.innerHTML = realCasesList.map(c => `
     <div class="card-surface rounded-3xl overflow-hidden shadow-lg border border-emerald-100">
       <div class="grid grid-cols-1 md:grid-cols-12">
-        <div class="md:col-span-4 relative min-h-[200px] sm:min-h-[240px]">
-          <img src="${c.img}" onerror="this.onerror=null;this.src='${c.fallbackImg}';" alt="${c.title}" class="w-full h-52 md:h-full object-cover" loading="lazy" />
+        <div class="md:col-span-4 relative min-h-[220px] sm:min-h-[260px]">
+          <img src="${c.img}" onerror="this.onerror=null;this.src='${c.fallbackImg}';" alt="${c.title}" class="w-full h-56 md:h-full md:absolute md:inset-0 object-cover" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/20 to-transparent flex flex-col justify-between p-4">
             <span class="self-start text-[11px] font-bold bg-white/95 text-slate-800 px-3 py-1 rounded-full shadow">
               ${c.badge}
@@ -901,11 +901,14 @@ function renderCasesCards() {
               </button>
             </div>
 
-            <div id="cbox-wrong-${c.num}" class="bg-rose-50/70 border border-rose-200 rounded-2xl p-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
-              ${c.wrong}
-            </div>
-            <div id="cbox-right-${c.num}" class="hidden bg-emerald-50/80 border border-emerald-200 rounded-2xl p-4 text-xs sm:text-sm text-slate-800 leading-relaxed">
-              ${c.right}
+            <!-- Оба текстовых блока лежат в одной ячейке сетки (col-start-1 row-start-1), поэтому высота карточки и фото никогда не прыгают -->
+            <div class="grid grid-cols-1">
+              <div id="cbox-wrong-${c.num}" class="col-start-1 row-start-1 bg-rose-50/70 border border-rose-200 rounded-2xl p-4 text-xs sm:text-sm text-slate-700 leading-relaxed transition-opacity duration-150">
+                ${c.wrong}
+              </div>
+              <div id="cbox-right-${c.num}" class="col-start-1 row-start-1 invisible opacity-0 pointer-events-none bg-emerald-50/80 border border-emerald-200 rounded-2xl p-4 text-xs sm:text-sm text-slate-800 leading-relaxed transition-opacity duration-150">
+                ${c.right}
+              </div>
             </div>
           </div>
 
@@ -926,13 +929,13 @@ function switchCaseTab(num, mode) {
   const rightBtn = document.getElementById(`cbtn-right-${num}`);
 
   if (mode === "wrong") {
-    wrongBox.classList.remove("hidden");
-    rightBox.classList.add("hidden");
+    wrongBox.classList.remove("invisible", "opacity-0", "pointer-events-none");
+    rightBox.classList.add("invisible", "opacity-0", "pointer-events-none");
     wrongBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold bg-white text-rose-600 shadow-sm transition";
     rightBtn.className = "py-2 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-emerald-700 transition";
   } else {
-    wrongBox.classList.add("hidden");
-    rightBox.classList.remove("hidden");
+    wrongBox.classList.add("invisible", "opacity-0", "pointer-events-none");
+    rightBox.classList.remove("invisible", "opacity-0", "pointer-events-none");
     rightBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold bg-white text-emerald-700 shadow-sm transition";
     wrongBtn.className = "py-2 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-rose-600 transition";
   }
@@ -1243,6 +1246,7 @@ function buildFinalResultsScreen(isRestoring = false) {
     </div>
   `).join("");
 
+  // РАДАР КУЛЬТУРЫ ЗДОРОВЬЯ (Увеличены боковые поля до 46px и подогнан шрифт, чтобы боковые подписи не обрезались)
   const ctx = document.getElementById("finalRadarChart").getContext("2d");
   if (radarChartObj) radarChartObj.destroy();
   radarChartObj = new Chart(ctx, {
@@ -1268,7 +1272,7 @@ function buildFinalResultsScreen(isRestoring = false) {
       responsive: true,
       maintainAspectRatio: true,
       layout: {
-        padding: { top: 14, bottom: 14, left: 24, right: 24 }
+        padding: { top: 16, bottom: 16, left: 46, right: 46 }
       },
       scales: {
         r: {
@@ -1276,9 +1280,9 @@ function buildFinalResultsScreen(isRestoring = false) {
           max: 100,
           ticks: { display: false, stepSize: 25 },
           pointLabels: {
-            font: { size: 11, weight: "700", family: "'Inter', sans-serif" },
+            font: { size: 10.5, weight: "700", family: "'Inter', sans-serif" },
             color: "#1e293b",
-            padding: 8
+            padding: 6
           }
         }
       },
