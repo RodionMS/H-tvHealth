@@ -37,12 +37,13 @@
           </div>
           <div class="truncate">
             <div class="font-bold text-xs sm:text-base text-slate-800 truncate">Здоровый сотрудник — эффективное предприятие</div>
-            <div class="text-[11px] sm:text-xs text-slate-500 truncate">Технологический отдел ОАО «Горизонт» • БГУИР</div>
+            <div class="text-[11px] sm:text-xs text-slate-500 truncate">Технологический отдел ОАО «Горизонт» (Н-ТиВи) • БГУИР</div>
           </div>
         </div>
 
         <div class="flex items-center gap-2 shrink-0">
-          <span id="stepBadge" class="text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-200 px-2.5 py-1 rounded-full">
+          <!-- Тройной клик по плашке шага включает скрытые кнопки «Демо» для организатора -->
+          <span id="stepBadge" onclick="handleSecretDemoTap()" class="cursor-pointer select-none text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-200 px-2.5 py-1 rounded-full" title="Текущий этап">
             Шаг 1 / 6
           </span>
           <button onclick="resetSavedProgress()" class="text-xs font-semibold text-slate-400 hover:text-rose-600 px-2 py-1 rounded-lg hover:bg-rose-50 transition" title="Сбросить сохраненные ответы и начать заново">
@@ -67,19 +68,19 @@
     <section id="screen-1" class="step-screen active">
       <div class="card-surface rounded-3xl overflow-hidden shadow-xl">
         
-        <!-- Иллюстративный Hero-баннер -->
+        <!-- Иллюстративный Hero-баннер с реальным фото цеха (photo1.jpg) -->
         <div class="hero-banner p-5 sm:p-8 text-white relative overflow-hidden">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
             <div class="md:col-span-7">
               <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md px-3 py-1 rounded-full mb-3">
                 <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
-                Интерактивный портал здоровья
+                Интерактивный портал здоровья • Н-ТиВи
               </span>
               <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight mb-2.5">
                 Формирование ценности здорового и безопасного стиля жизни
               </h1>
               <p class="text-emerald-50 text-xs sm:text-sm leading-relaxed">
-                Проверь свой ресурс организма, разбери реальные рабочие ситуации в цеху и офисе и получи персонального Telegram-помощника для укрепления полезных привычек.
+                Проверь свой ресурс организма, разбери реальные ситуации на наших сборочных линиях, у роботизированных комплексов и в «чистой комнате» и получи персонального Telegram-помощника.
               </p>
 
               <!-- Анимированная векторная линия пульса (ЭКГ) -->
@@ -90,19 +91,20 @@
               </div>
             </div>
 
-            <!-- Тематическая иллюстрация здоровья -->
+            <!-- Реальное фото коллектива и цеха (photo1.jpg с авто-резервом) -->
             <div class="md:col-span-5 flex justify-center">
-              <div class="hero-illustration-box relative w-full max-w-[280px]">
+              <div class="hero-illustration-box relative w-full max-w-[300px]">
                 <img 
-                  src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" 
-                  alt="Здоровье, баланс и энергия" 
-                  class="w-full h-44 sm:h-52 object-cover rounded-2xl shadow-lg border-2 border-white/30"
+                  src="photo1.jpg" 
+                  onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80';"
+                  alt="Производственный цех и коллектив Н-ТиВи Горизонт" 
+                  class="w-full h-48 sm:h-56 object-cover rounded-2xl shadow-lg border-2 border-white/30"
                 />
                 <div class="floating-badge badge-top bg-white text-slate-800 px-3 py-1.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-1.5">
-                  <span>⚡</span> <span>Энергия без химии</span>
+                  <span>⚡</span> <span>Энергия без стимуляторов</span>
                 </div>
                 <div class="floating-badge badge-bottom bg-emerald-900/90 backdrop-blur text-emerald-100 px-3 py-1.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-1.5">
-                  <span>🛡️</span> <span>100% Безопасность</span>
+                  <span>🤖</span> <span>Безопасность у линий и роботов</span>
                 </div>
               </div>
             </div>
@@ -117,12 +119,12 @@
             <div class="step-preview-card bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4">
               <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center text-xl mb-2">📊</div>
               <div class="font-bold text-sm text-slate-800">1. Твой образ и тест</div>
-              <p class="text-xs text-slate-600 mt-1">Оценим текущие привычки, режим сна, питание и базовые знания по охране труда.</p>
+              <p class="text-xs text-slate-600 mt-1">Оценим текущие привычки, режим сна, питание и правила безопасности в цеху.</p>
             </div>
             <div class="step-preview-card bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4">
               <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center text-xl mb-2">🏭</div>
-              <div class="font-bold text-sm text-slate-800">2. 6 кейсов и ЗОЖ</div>
-              <p class="text-xs text-slate-600 mt-1">Обсудим реальные ситуации на линии, переходы моделей, энергетики и 6 столпов здоровья.</p>
+              <div class="font-bold text-sm text-slate-800">2. 6 кейсов нашего цеха</div>
+              <p class="text-xs text-slate-600 mt-1">Разберем ситуации у «пробойки», роботов, на переходах моделей и в «чистой комнате».</p>
             </div>
             <div class="step-preview-card bg-sky-50/70 border border-sky-200/80 rounded-2xl p-4">
               <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-700 flex items-center justify-center text-xl mb-2">🤖</div>
@@ -161,7 +163,7 @@
          ЭКРАН 2: ВХОДНОЙ ТЕСТ №1 (24 ВОПРОСА)
          ===================================================== -->
     <section id="screen-2" class="step-screen">
-      <!-- ПРИЛИПАЮЩАЯ ПЛАШКА СЧЕТЧИКА (Вынесена на верхний уровень секции для 100% работы sticky) -->
+      <!-- ПРИЛИПАЮЩАЯ ПЛАШКА СЧЕТЧИКА -->
       <div class="sticky-counter-bar mb-4">
         <div class="bg-white/95 backdrop-blur-md border-2 border-emerald-400/80 rounded-2xl px-4 py-2.5 shadow-lg flex items-center justify-between gap-3">
           <div class="flex items-center gap-2">
@@ -172,7 +174,8 @@
             <span id="preProgressCounter" class="font-extrabold text-xs sm:text-sm text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">
               0 из 24
             </span>
-            <button onclick="demoFillPreTest()" class="text-[11px] sm:text-xs bg-slate-100 hover:bg-emerald-100 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition" title="Быстрое демо-заполнение">
+            <!-- Кнопка Демо скрыта по умолчанию (открывается тройным кликом по Шагу в шапке или ?demo=1) -->
+            <button onclick="demoFillPreTest()" class="hidden demo-only-btn text-[11px] sm:text-xs bg-slate-100 hover:bg-emerald-100 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition" title="Быстрое демо-заполнение для проверки">
               ⚡ Демо
             </button>
           </div>
@@ -207,7 +210,7 @@
     </section>
 
     <!-- =====================================================
-         ЭКРАН 3: КЕЙСЫ (ПРЕДЛОГ + 6 СИТУАЦИЙ С КАРТИНКАМИ)
+         ЭКРАН 3: КЕЙСЫ (ПРЕДЛОГ + 6 СИТУАЦИЙ С ФОТО ЗАВОДА)
          ===================================================== -->
     <section id="screen-3" class="step-screen">
       <!-- Предлог к живому обсуждению -->
@@ -218,24 +221,24 @@
           </div>
           <div>
             <span class="text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2.5 py-1 rounded-full">
-              Ответы успешно записаны • Живое обсуждение
+              Этап 2 • Ответы сохранены • Живое обсуждение
             </span>
             <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-2">
-              <span class="user-name-placeholder">Коллега</span>, давай обсудим ситуации, которые бывают у нас на работе и дома!
+              <span class="user-name-placeholder">Коллега</span>, давай разберем реальные ситуации на наших линиях, у роботов и дома!
             </h2>
             <p class="text-xs sm:text-sm text-slate-700 mt-2 leading-relaxed">
-              Мы каждый день сталкиваемся с одними и теми же вещами: пищащая станция «пробойки», желание перепрыгнуть движущуюся линию прогона, банки энергетиков с вейпом на перекурах, нервные переходы мелких лотов и телефон до двух ночи. Нажимай на переключатели внутри каждой карточки, чтобы сравнить <strong>привычный риск</strong> и <strong>правильное решение</strong>.
+              На производстве появилось много промышленных роботов-манипуляторов и автоматов-винтовертов, работают стенды «пробойки» (HiPot), «чистая комната» и скоростные конвейеры. При этом спешка, банки энергетиков, перекуры с вейпом и смартфон до двух ночи напрямую влияют на нашу безопасность и самочувствие. Переключай вкладки внутри карточек, чтобы сравнить <strong>привычный риск</strong> и <strong>правильное решение</strong>.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Список 6 иллюстрированных кейсов -->
+      <!-- Список 6 иллюстрированных кейсов с реальными фото завода -->
       <div id="casesListContainer" class="space-y-6 mb-8"></div>
 
       <div class="card-surface rounded-3xl p-5 sm:p-6 shadow-md text-center">
         <p class="text-xs sm:text-sm text-slate-600 mb-4">
-          Кейсы разобраны! Теперь давай посмотрим, из каких 6 фундаментальных столпов складывается культура здоровья каждого человека.
+          Кейсы разобраны! Теперь давай посмотрим, из каких 6 фундаментальных столпов складывается культура здоровья и безопасности на нашем предприятии.
         </p>
         <button onclick="goToStep(4)" class="btn-primary w-full sm:w-auto text-white font-bold py-4 px-8 rounded-2xl shadow-lg text-base">
           Перейти к диалогу о здоровье и 6 столпам →
@@ -244,10 +247,10 @@
     </section>
 
     <!-- =====================================================
-         ЭКРАН 4: БОЛЬШОЙ ДИАЛОГ О ЗДОРОВЬЕ + АНИМАЦИЯ ДЫХАНИЯ
+         ЭКРАН 4: БОЛЬШОЙ ДИАЛОГ О ЗДОРОВЬЕ + ГАЛЕРЕЯ ЦЕХА + ТРЕНАЖЕРЫ
          ===================================================== -->
     <section id="screen-4" class="step-screen">
-      <!-- Главный мотивационный блок с иллюстрацией -->
+      <!-- Главный мотивационный блок с реальным фото чистой комнаты (photo8.jpg) -->
       <div class="card-surface rounded-3xl p-5 sm:p-8 shadow-xl mb-6 overflow-hidden">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mb-6">
           <div class="md:col-span-7">
@@ -258,31 +261,54 @@
               Здоровье — это ресурс, который нельзя взять в кредит
             </h2>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Когда мы молоды и полны сил, кажется, что организм простит всё: сон по 5 часов, литры энергетиков, никотин, подъемы тяжелых экранов рывком и работу на нервах. Но ресурс тела конечен. Трудовая дисциплина и культура здоровья нужны в первую очередь <strong>тебе и твоей семье</strong>, а не для галочки в журнале инструктажа.
+              Современное производство телевизоров — это «чистая комната», роботизированные комплексы, проверка матриц на ярком белом поле и высокая плотность переходов моделей. Когда спишь по 5 часов и глушишь усталость энергетиками и вейпом, падает внимание, устают глаза и растет риск ошибок у оборудования. Культура здоровья и безопасности нужна в первую очередь <strong>тебе и твоей семье</strong>.
             </p>
           </div>
           <div class="md:col-span-5">
             <img 
-              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80" 
-              alt="Гармония и физическое здоровье" 
-              class="w-full h-44 sm:h-48 object-cover rounded-2xl shadow-md border border-emerald-100"
+              src="photo8.jpg" 
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80';"
+              alt="Чистая комната и культура производства ОАО Горизонт" 
+              class="w-full h-48 sm:h-52 object-cover rounded-2xl shadow-md border border-emerald-100"
             />
           </div>
         </div>
 
         <!-- Три критерия здоровья -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 mb-6">
           <div class="bg-white/80 rounded-xl p-3">
             <div class="font-bold text-xs sm:text-sm text-emerald-900">🧠 1. Когнитивный (Знаю)</div>
-            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Понимание законов физиологии, сна, питания и правил охраны труда (Постановление № 53, СТБ ISO 45001).</p>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Понимание законов физиологии, сна, питания и правил охраны труда у конвейеров и роботов (Постановление № 53, СТБ ISO 45001).</p>
           </div>
           <div class="bg-white/80 rounded-xl p-3">
             <div class="font-bold text-xs sm:text-sm text-emerald-900">❤️ 2. Ценностный (Ценю)</div>
-            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Отношение к своему здоровью и безопасности как к главному жизненному приоритету.</p>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Отношение к своему здоровью, зрению, спине и безопасности как к главному жизненному приоритету.</p>
           </div>
           <div class="bg-white/80 rounded-xl p-3">
             <div class="font-bold text-xs sm:text-sm text-emerald-900">⚡ 3. Деятельностный (Делаю)</div>
-            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Ежедневные привычки: обойти линию прогона, выпить воды, размять спину и вовремя лечь спать.</p>
+            <p class="text-[11px] sm:text-xs text-slate-600 mt-1">Ежедневные привычки: обойти линию и зону робота по переходу, надеть ESD-защиту, выпить воды и вовремя лечь спать.</p>
+          </div>
+        </div>
+
+        <!-- Мини-фотолента реальных участков предприятия (photo9.jpg, photo4.jpg, photo10.jpg) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="relative rounded-2xl overflow-hidden h-36 border border-slate-200 shadow-sm group">
+            <img src="photo9.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=500&q=80';" alt="Промышленные роботы-манипуляторы" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-3">
+              <span class="text-white text-xs font-bold">🤖 Ограждения роботов-манипуляторов</span>
+            </div>
+          </div>
+          <div class="relative rounded-2xl overflow-hidden h-36 border border-slate-200 shadow-sm group">
+            <img src="photo4.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=500&q=80';" alt="Роботы-винтоверты на линии" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-3">
+              <span class="text-white text-xs font-bold">⚙️ Автоматические станции сборки</span>
+            </div>
+          </div>
+          <div class="relative rounded-2xl overflow-hidden h-36 border border-slate-200 shadow-sm group">
+            <img src="photo10.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=500&q=80';" alt="Монтаж плат и контроль качества" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-3">
+              <span class="text-white text-xs font-bold">🛡️ Эргономика и культура рабочего места</span>
+            </div>
           </div>
         </div>
       </div>
@@ -301,7 +327,7 @@
             <h4>Калькулятор износа: Энергетики и Вейп</h4>
           </div>
           <p class="text-xs text-slate-500 mb-4">
-            Посмотри, какую нагрузку получает сердце и сосуды за 1 рабочий год (250 смен):
+            Оцени примерные последствия привычек за 1 рабочий год (250 смен). Расчет ориентировочный: ≈54 г сахара в банке 0,5 л, ≈5 мин сосудистой нагрузки на одну сессию, цена банки ≈3,5 BYN, одной сессии ≈0,35 BYN:
           </p>
 
           <div class="space-y-4">
@@ -328,17 +354,17 @@
               </div>
               <div class="bg-amber-50 border border-amber-100 rounded-2xl p-2.5 sm:p-3 text-center">
                 <div id="stimHoursOut" class="text-base sm:text-lg font-extrabold text-amber-700">125 ч</div>
-                <div class="text-[10px] sm:text-[11px] text-slate-600">спазма сосудов</div>
+                <div class="text-[10px] sm:text-[11px] text-slate-600">нагрузки на сосуды</div>
               </div>
               <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-2.5 sm:p-3 text-center">
-                <div id="stimMoneyOut" class="text-base sm:text-lg font-extrabold text-emerald-700">1 925 BYN</div>
+                <div id="stimMoneyOut" class="text-base sm:text-lg font-extrabold text-emerald-700">1 400 BYN</div>
                 <div class="text-[10px] sm:text-[11px] text-slate-600">трат в год</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Виджет 2: Живой тренажер (с кнопкой Старт / Стоп и понятной инструкцией) -->
+        <!-- Виджет 2: Живой тренажер -->
         <div class="card-surface border-emerald-200 rounded-3xl p-5 sm:p-6 shadow-md flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-2 text-emerald-700 font-extrabold text-base sm:text-lg mb-1">
@@ -346,10 +372,10 @@
               <h4>Живой тренажер: Разгрузка за 20 секунд</h4>
             </div>
             <p class="text-xs text-slate-500 mb-3">
-              Снимает спазм глаз после белого поля матриц и гасит кортизол после споров на переходе моделей:
+              Помогает дать отдых глазам после белого поля матриц и снизить напряжение после споров на переходе моделей:
             </p>
 
-            <!-- Анимированный круг дыхания (тоже кликабельный для старта/стопа) -->
+            <!-- Анимированный круг дыхания -->
             <div class="flex flex-col items-center justify-center py-3">
               <div onclick="togglePracticeTimer()" id="breathingCircle" class="breathing-sphere cursor-pointer w-28 h-28 rounded-full flex flex-col items-center justify-center text-center shadow-inner select-none" title="Нажми для старта или остановки">
                 <span id="breathTimerDisplay" class="text-2xl font-extrabold text-emerald-800">20 с</span>
@@ -394,7 +420,8 @@
             <span id="postProgressCounter" class="font-extrabold text-xs sm:text-sm text-sky-800 bg-sky-100 px-3 py-1 rounded-full">
               0 из 12
             </span>
-            <button onclick="demoFillPostTest()" class="text-[11px] sm:text-xs bg-slate-100 hover:bg-sky-100 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition" title="Быстрое демо-заполнение">
+            <!-- Кнопка Демо скрыта по умолчанию -->
+            <button onclick="demoFillPostTest()" class="hidden demo-only-btn text-[11px] sm:text-xs bg-slate-100 hover:bg-sky-100 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition" title="Быстрое демо-заполнение для проверки">
               ⚡ Демо
             </button>
           </div>
@@ -410,7 +437,7 @@
             <span class="user-name-placeholder">Участник</span>, проверим, что изменилось!
           </h2>
           <p class="text-xs sm:text-sm text-slate-600 mt-1">
-            Имя уже сохранено. Про старые привычки больше не спрашиваем — только решения по кейсам и твоя цель на ближайшие 2 недели.
+            Имя уже сохранено. Про старые привычки больше не спрашиваем — только решения по кейсам и твой личный ориентир для бота-помощника.
           </p>
         </div>
 
@@ -471,7 +498,7 @@
           </div>
         </div>
 
-        <!-- Радар образа жизни (ИСПРАВЛЕНЫ ОТСТУПЫ И ПОДПИСИ) + полосы по 4 блокам -->
+        <!-- Радар образа жизни + полосы по 4 блокам -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 items-center">
           <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5">
             <h3 class="font-bold text-sm text-center text-slate-800 mb-1">Радар культуры здоровья</h3>
@@ -506,7 +533,7 @@
                 Твой личный Telegram-бот помощник готов!
               </h3>
               <p class="text-emerald-50 text-xs sm:text-sm leading-relaxed mb-4">
-                Сканируй QR-код или нажми кнопку ниже. Бот уже знает твои результаты и выбранную цель — он будет присылать тебе короткие жизненные напоминалки (про воду вместо энергетиков, разминку спины, отдых для глаз и безопасность у конвейера).
+                Сканируй QR-код или нажми кнопку ниже. Бот уже знает твое имя, результаты обоих тестов и выбранный ориентир — он будет присылать тебе короткие жизненные напоминалки по графику наших смен (включая обед в 11:40 / 12:00).
               </p>
               <div id="botPersonalSummary" class="bg-black/15 backdrop-blur border border-white/20 rounded-xl p-3.5 text-xs text-emerald-50 mb-4"></div>
 
@@ -526,7 +553,7 @@
 
         <!-- Нижняя панель резервного копирования -->
         <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 text-center sm:text-left">
-          <span>🎁 Не забудь получить подарочный буклет «6 столпов культуры здоровья»!</span>
+          <span>🎁 Не забудь получить памятку «6 столпов культуры здоровья»!</span>
           <button onclick="copyReportToClipboard()" class="text-emerald-700 font-semibold hover:underline">
             Скопировать текстовый отчет
           </button>
